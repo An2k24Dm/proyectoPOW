@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spartan:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="CSS\estilo_index.css">
+    <link rel="stylesheet" href="CSS\estilo_base.css">
+    <link rel="stylesheet" href="CSS\estilo_carrusel.css">
+    <title>Cartelera</title>
+</head>
+<body>
+    <header class="header">
+        <section class="logo-cine">
+            <a href="index.html"><img src="recursos/logo.png" alt="Cinex Unidos" class="logo"></a>
+        </section>
+        <nav class="principal">
+            <ul>
+                <li><a href='index.html'><img src="recursos\iconos\icono-peliculas.png" alt="Cartelera"><span>Cartelera</span></a></li>
+                <li><a href='proximamente.html'><img src="recursos\iconos\icono-proximamente.png" alt="Próximamente"><span>Próximamente</span></a></li>
+                <li><a href='caramelería.html'><img src="recursos\iconos\icono-palomitas.png" alt="Caramelería"><span>Caramelería</span></a></li>
+                <li><a href='cines.html'><img src="recursos\iconos\icono-boleto.png" alt="Cines"><span>Cines</span></a></li>
+            </ul>
+        </nav>
+        <section class="portada-contenedor">
+            <figure class="carrusel">
+                <img class="carrusel-item active" src="recursos\portadas\portada_intensamente2.jpg" alt="Portada Intensamente 2">
+                <img class="carrusel-item" src="recursos\portadas\portada_badboys.jpg" alt="Portada Bad Boys">
+                <img class="carrusel-item" src="recursos\portadas\portada_mivillanofavorito.jpg" alt="Portada Mi Villano Favorito">
+                <img class="carrusel-item" src="recursos\portadas\unlugarensilenco.jpg" alt="Portada Un lugar en silencio">
+                <figcaption class="carrusel-puntos"></figcaption>
+            </figure>
+        </section>
+    </header>
+    <main class="contenedor">
+        <h1>Cartelera</h1>
+        <section class="buscador">
+            <form>
+                <input type="text" id="busqueda" class="busqueda" placeholder=" ">
+                <label for="busqueda">Buscar...</label>
+                <img src="recursos/iconos/icono_lupa.png" alt="Buscar">
+            </form>
+            <form>
+                <label for="filtro">Filtrar</label>
+                <select class="filtro" name="filtro" id="filtro">
+                    <option value="todas">Todas</option>
+                </select>
+            </form>
+        </section>
+        <section class="peliculas"></section>
+    </main>  
+    <footer class="footer">
+        <p>&copy; 2024 Cinex Unidos. Todos los derechos reservados.</p>
+    </footer>
+    <script src="JS/carrusel.js"></script>
+    <script src="JS/catelera.js"></script>
+    <script src="JS/buscarPelicula.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spartan:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="CSS\estilo_base.css">
+    <link rel="stylesheet" href="CSS\estilo_index.css">
+    <title>Próximamente</title>
+</head>
+<body>
+    <header>
+        <section class="logo-cine">
+            <a href="index.html"><img src="recursos/logo.png" alt="Cinex Unidos" class="logo"></a>
+        </section>
+        <nav class="principal">
+            <ul>
+                <li><a href='index.html'><img src="recursos\iconos\icono-peliculas.png" alt="Cartelera"><span>Cartelera</span></a></li>
+                <li><a href='proximamente.html'><img src="recursos\iconos\icono-proximamente.png" alt="Próximamente"><span>Próximamente</span></a></li>
+                <li><a href='caramelería.html'><img src="recursos\iconos\icono-palomitas.png" alt="Caramelería"><span>Caramelería</span></a></li>
+                <li><a href='cines.html'><img src="recursos\iconos\icono-boleto.png" alt="Cines"><span>Cines</span></a></li>
+            </ul>
+        </nav>
+        <section class="portada"></section>
+    </header>
+    <main class="contenedor">
+        <h1>Próximos estrenos</h1>
+        <section class="buscador">
+            <form>
+                <input type="text" id="busqueda" class="busqueda" placeholder=" ">
+                <label for="busqueda">Buscar...</label>
+                <img src="recursos/iconos/icono_lupa.png" alt="Buscar">
+            </form>
+        </section>
+        <section class="peliculas">
+            <figure class="pelicula">
+                <img src="recursos\posters\borderlands.jpg" alt="Borderlands">
+                <figcaption class="descripcion">
+                    <h2>Borderlands</h2>
+                    <p>Fecha de estreno: Agosto 08</p>
+                </figcaption>
+            </figure>
+            <figure class="pelicula">
+                <img src="recursos\posters\deadpoolwolverine.jpg" alt="Deadpool y Wolverine">
+                <figcaption class="descripcion">
+                    <h2>Deadpool y Wolverine</h2>
+                    <p>Fecha de estreno: Julio 24</p>
+                </figcaption>
+            </figure>
+            <figure class="pelicula">
+                <img src="recursos\posters\deepweb.jpg" alt="Deepweb: Show Mortal">
+                <figcaption class="descripcion">
+                    <h2>Deepweb: Show Mortal</h2>
+                    <p>Fecha de estreno: Julio 11</p>
+                </figcaption>
+            </figure>
+            <figure class="pelicula">
+                <img src="recursos\posters\lluviaacida.jpg" alt="Lluvia Ácida">
+                <figcaption class="descripcion">
+                    <h2>Lluvia Ácida</h2>
+                    <p>Fecha de estreno: Julio 11</p>
+                </figcaption>
+            </figure>
+            <figure class="pelicula">
+                <img src="recursos\posters\tornados.jpg" alt="Tornados">
+                <figcaption class="descripcion">
+                    <h2>Tornados</h2>
+                    <p>Fecha de estreno: Julio 11</p>
+                </figcaption>
+            </figure>
+        </section>
+    </main>
+    <footer class="footer">
+        <p>&copy; 2024 Cinex Unidos. Todos los derechos reservados.</p>
+    </footer>
+    <script src="JS/buscarPelicula.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es-VE">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Spartan:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="CSS\estilo_base.css">
+  <link rel="stylesheet" href="CSS\estilo_carameleria.css">
+  <title>Caramelería</title>
+</head>
+<body>
+  <header class="header">
+    <section class="logo-cine">
+      <a href="index.html"><img src="recursos/logo.png" alt="Cinex Unidos" class="logo"></a>
+    </section>
+    <nav class="principal">
+      <ul>
+        <li><a href='index.html'><img src="recursos\iconos\icono-peliculas.png" alt="Cartelera"><span>Cartelera</span></a></li>
+        <li><a href='proximamente.html'><img src="recursos\iconos\icono-proximamente.png" alt="Próximamente"><span>Próximamente</span></a></li>
+        <li><a href='caramelería.html'><img src="recursos\iconos\icono-palomitas.png" alt="Caramelería"><span>Caramelería</span></a></li>
+        <li><a href='cines.html'><img src="recursos\iconos\icono-boleto.png" alt="Cines"><span>Cines</span></a></li>
+      </ul>
+    </nav>
+    <section class="portada"></section>
+  </header>
+  <main class="contenedor">
+    <h1>Menú</h1>
+    <section class="buscador">
+      <form>
+        <input type="text" id="busqueda" class="busqueda" placeholder=" ">
+        <label for="busqueda">Buscar...</label>
+        <img src="recursos/iconos/icono_lupa.png" alt="Buscar">
+      </form>
+      <form>
+        <label for="filtro">Filtrar</label>
+        <select class="filtro" name="filtro" id="filtro">
+          <option value="todas">Todas</option>
+          <option value="combos">Combos</option>
+          <option value="bebidas">Bebidas</option>
+          <option value="palomitas">Palomitas</option>
+          <option value="golosinas">Golosinas</option>
+        </select>
+      </form>
+    </section>
+    <section class="items">
+      <h3>Palomitas</h3>
+      <figure class="palomitas">
+        <img src="recursos/caramelería/cotufas_grandes.jpg" alt="palomitas"/>
+        <figcaption class="descripcion">
+          <h2>Palomitas simples (grandes)</h2>
+          <p>$5.50</p>
+        </figcaption>
+      </figure>
+      <figure class="palomitas">
+        <img src="recursos/caramelería/cotufas_medianas.jpg" alt="palomitas"/>
+        <figcaption class="descripcion">
+          <h2>Palomitas simples (medianas)</h2>
+          <p>$4.80</p>
+        </figcaption>
+      </figure>
+    </section>
+    <section class="items">
+      <h3>Bebidas</h3>
+      <figure class="bebidas">
+        <img src="recursos/caramelería/agua.jpg" alt="bebidas"/>
+        <figcaption class="descripcion">
+          <h2>Agua Minalba 600ml</h2>
+          <p>$1.80</p>
+        </figcaption>
+      </figure>
+      <figure class="bebidas">
+        <img src="recursos/caramelería/refresco_grande.jpg" alt="bebidas"/>
+        <figcaption class="descripcion">
+          <h2>Refresco grande</h2>
+          <p>$2.50</p>
+        </figcaption>
+      </figure>
+      <figure class="bebidas">
+        <img src="recursos/caramelería/refresco_mediano.jpg" alt="bebidas"/>
+        <figcaption class="descripcion">
+          <h2>Refresco mediano</h2>
+          <p>$2.20</p>
+        </figcaption>
+      </figure>
+      <figure class="bebidas">
+        <img src="recursos/caramelería/refresco_pequeño.jpg" alt="bebidas"/>
+        <figcaption class="descripcion">
+          <h2>Refresco pequeño</h2>
+          <p>$2.00</p>
+        </figcaption>
+      </figure>
+    </section>
+    <section class="items">
+      <h3>Golosinas</h3>
+      <figure class="golosinas">
+        <img src="recursos/caramelería/pirulin.jpg" alt="golosinas"/>
+        <figcaption class="descripcion">
+          <h2>Pirulin</h2>
+          <p>$2.90</p>
+        </figcaption>
+      </figure>
+      <figure class="golosinas">
+        <img src="recursos/caramelería/chocolate.jpg" alt="golosinas"/>
+        <figcaption class="descripcion">
+          <h2>Chocolate Savoy</h2>
+          <p>$1.40</p>
+        </figcaption>
+      </figure>
+    </section>
+    <section class="items">
+      <h3>Combos</h3>
+      <figure class="combos">
+        <img src="recursos/caramelería/combo_grande.jpg" alt="combos"/>
+        <figcaption class="descripcion">
+          <h2>Combo grande</h2>
+          <p>$14.99</p>
+        </figcaption>
+      </figure>
+      <figure class="combos">
+        <img src="recursos/caramelería/combo_mediano.jpg" alt="combos"/>
+        <figcaption class="descripcion">
+          <h2>Combo mediano</h2>
+          <p>$10.50</p>
+        </figcaption>
+      </figure>
+    </section>
+  </main>
+  <footer class="footer">
+    <p>&copy; 2024 Cinex Unidos. Todos los derechos reservados.</p>
+  </footer>
+  <script src="JS/buscarCarameleria.js"></script>
+</body>
+</html>

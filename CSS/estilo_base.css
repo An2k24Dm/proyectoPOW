@@ -1,0 +1,207 @@
+body {
+    margin: 0;
+    background-color: #0c0926;
+    font-family: 'Spartan', sans-serif;
+    color: whitesmoke;
+}
+
+main.contenedor {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    color: whitesmoke;
+}
+
+main h1 {
+    text-align: left;
+    margin: 0px;
+    margin-bottom: 25px;
+}
+
+header .header::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    opacity: 0.8;
+    background-color: rgb(92, 86, 86);
+}
+
+footer.footer {
+    background-color: #0c0926;
+    color: whitesmoke;
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 20px;
+    border-top: 1px solid #5c5656;
+}
+
+.footer p {
+    margin: 0;
+    font-size: 0.7em;
+}
+
+/* Logo */
+.logo-cine {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+/* Nav */
+.principal {
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+    background: linear-gradient(to bottom, #0c0926, #1f1f36, #0c0926);
+}
+
+.principal ul {
+    display: flex;
+    width: 100%;
+    max-width: 800px;
+}
+
+.principal ul li {
+    flex: 1;
+    list-style: none;
+    justify-content: center;
+    position: relative;
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+}
+
+.principal ul li a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    color: whitesmoke;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+.principal ul li a img {
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease-in-out;
+}
+
+.principal ul li a span {
+    margin-top: 5px;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.principal ul li a:hover img {
+    transform: scale(1.2);
+}
+
+.principal ul li a:hover span {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Buscador */
+.buscador {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0px 0 20px;
+    flex-wrap: wrap;
+}
+
+.buscador form {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.buscador input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-right: 10px;
+    background: #24243e;
+    color: whitesmoke;
+    position: relative;
+    z-index: 1;
+}
+
+.buscador label[for="busqueda"] {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #aaa;
+    background-color: transparent;
+    padding: 0 5px;
+    pointer-events: none;
+    transition: all 0.2s ease-in-out;
+    z-index: 2;
+}
+
+.buscador input[type="text"]:focus + label[for="busqueda"],
+.buscador input[type="text"]:not(:placeholder-shown) + label[for="busqueda"] {
+    top: -10px;
+    left: 10px;
+    font-size: 0.8em;
+    color: #ccc;
+}
+
+.buscador select {
+    padding: 10px;
+    margin: 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    color: whitesmoke;
+    background-color: #24243e;
+    position: relative;
+    z-index: 1;
+}
+
+.buscador label[for="filtro"] {
+    color: #aaa;
+    padding: 0 5px;
+    pointer-events: none;
+}
+
+.buscador img {
+    width: 24px;
+    height: 24px;
+}
+
+.portada::before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 1px;
+    opacity: 0.8;
+    background-color: #5c5656;
+    margin: 10px 0;
+}
+
+@media (max-width: 768px) {
+    .principal ul {
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 0;
+    }
+
+    .principal ul li {
+        flex: 1;
+        list-style: none;
+        justify-content: center;
+        margin: 0;
+    }
+}

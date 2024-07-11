@@ -1,0 +1,60 @@
+/* Películas */
+.peliculas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    justify-content: center;
+}
+
+.pelicula {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    transition: transform 0.3s ease-in-out;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+    max-width: 270px;
+}
+
+.pelicula img {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
+}
+
+.pelicula:hover {
+    transform: scale(1.05);
+}
+
+.pelicula .descripcion {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1em;
+    color: whitesmoke;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.pelicula:hover .descripcion {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+    .buscador {
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .buscador input[type="text"] {
+        width: 150px;
+    }
+
+    .buscador select {
+        width: 100px;
+    }
+}
