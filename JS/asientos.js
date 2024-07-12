@@ -1,4 +1,5 @@
 let selectedSeats = [];
+let reservedSeats = [];
 
 // Función para obtener los detalles de la función desde la API
 async function fetchShowtimeDetails(theatreId, auditoriumId, showtimeId) {
@@ -173,6 +174,7 @@ document.querySelector('.boton.reservar').addEventListener('click', async (event
             allSuccessful = false;
             break;
         }
+        reservedSeats.push(seat);
     }
 
     if (allSuccessful) {
@@ -188,6 +190,40 @@ document.querySelector('.boton.reservar').addEventListener('click', async (event
         if (showtimeDetails) {
             displaySeatMap(showtimeDetails.seats);
             selectedSeats = [];
+        }
+    }
+});
+
+document.querySelector('.boton.cancelar').addEventListener('click', async (event) => {
+    event.preventDefault();
+
+    const params = new URLSearchParams(window.location.search);
+    const theatreId = params.get('theatreId');
+    const auditoriumId = params.get('auditoriumId');
+    const showtimeId = params.get('showtimeId');
+
+    let allSuccessful = true;
+    for (const seat of reservedSeats) {
+        const success = await cancelReservation(theatreId, auditoriumId, showtimeId, seat);
+        if (!success) {
+            allSuccessful = false;
+            break;
+        }
+    }
+
+    if (allSuccessful) {
+        alert('Reservación cancelada exitosamente.');
+        reservedSeats = [];
+        const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
+        if (showtimeDetails) {
+            displaySeatMap(showtimeDetails.seats);
+        }
+    } else {
+        alert('Hubo un problema al cancelar la reservación.');
+        const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
+        if (showtimeDetails) {
+            displaySeatMap(showtimeDetails.seats);
+            reservedSeats = [];
         }
     }
 });
@@ -231,5 +267,4 @@ async function init() {
     }
 }
 
-// Evento que se ejecuta cuando el DOM se carga completamente
 document.addEventListener('DOMContentLoaded', init);
