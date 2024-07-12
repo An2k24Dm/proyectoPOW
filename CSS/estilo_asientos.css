@@ -15,13 +15,11 @@ h1 {
     width: 50%;
     margin-bottom: 20px;
     text-align: center;
-    /* Centra el contenido */
 }
 
 #movie-details img.movie-poster {
     display: block;
     margin: 10px auto;
-    /* Ajusta el margen para una mejor separación */
     max-width: 50%;
     height: auto;
 }
@@ -80,13 +78,11 @@ h1 {
     pointer-events: none;
 }
 
-
-/* Alineación específica para la fila de etiquetas */
 .seat-labels .seat-label {
     line-height: 20px;
 }
 
-.boton.reservar {
+.boton.reservar, .cancelar{
     background-color: #1f1f36;
     color: whitesmoke;
     border: none;
@@ -98,6 +94,11 @@ h1 {
 }
 
 .boton.reservar:hover {
+    background-color: rgb(137, 137, 43);
+    transform: scale(1.05);
+}
+
+.cancelar:hover {
     background-color: rgb(137, 137, 43);
     transform: scale(1.05);
 }
@@ -139,10 +140,8 @@ nav.principal {
     margin-right: 20px;
     font-size: 0.8em;
     margin-bottom: 80px;
-    /* Tamaño de letra más pequeño */
 }
 
 .legend-item span {
     margin-top: 5px;
-    /* Espacio entre el asiento y el texto */
 }

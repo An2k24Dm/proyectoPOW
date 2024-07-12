@@ -106,7 +106,12 @@ async function reserveSeat(theatreId, auditoriumId, showtimeId, seat) {
             },
             body: JSON.stringify({ seat })
         });
-        if (!response.ok) throw new Error('Error al reservar el asiento');
+        if (!response.ok) {
+            if (response.status === 409) {
+                alert('El asiento ya ha sido reservado por otro usuario.');
+            }
+            throw new Error('Error al reservar el asiento');
+        }
         return true;
     } catch (error) {
         console.error('Error al reservar el asiento:', error);
@@ -172,13 +177,41 @@ document.querySelector('.boton.reservar').addEventListener('click', async (event
 
     if (allSuccessful) {
         alert('Asientos reservados exitosamente.');
-        window.location.href = 'index.html';
+        selectedSeats = [];
+        const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
+        if (showtimeDetails) {
+            displaySeatMap(showtimeDetails.seats);
+        }
     } else {
         alert('Hubo un problema al reservar uno o más asientos.');
+        const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
+        if (showtimeDetails) {
+            displaySeatMap(showtimeDetails.seats);
+            selectedSeats = [];
+        }
     }
 });
 
-// Función de inicialización
+function initSSE(theatreId, auditoriumId, showtimeId) {
+    const eventSource = new EventSource(`https://cinexunidos-production.up.railway.app/theatres/${theatreId}/auditoriums/${auditoriumId}/showtimes/${showtimeId}/reservation-updates`);
+
+    eventSource.onmessage = async (event) => {
+        const data = JSON.parse(event.data);
+        if (data.result === 'SEAT_RESERVED' || data.result === 'SEAT_RELEASED') {
+            const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
+            if (showtimeDetails) {
+                displaySeatMap(showtimeDetails.seats);
+            }
+        }
+    };
+
+    eventSource.onerror = (error) => {
+        console.error('SSE Error:', error);
+        eventSource.close();
+        setTimeout(() => initSSE(theatreId, auditoriumId, showtimeId), 5000);
+    };
+}
+
 async function init() {
     const params = new URLSearchParams(window.location.search);
     const theatreId = params.get('theatreId');
@@ -194,6 +227,7 @@ async function init() {
     if (showtimeDetails) {
         displayMovieDetails(showtimeDetails);
         displaySeatMap(showtimeDetails.seats);
+        initSSE(theatreId, auditoriumId, showtimeId);
     }
 }
 
