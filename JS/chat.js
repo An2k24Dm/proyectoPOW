@@ -1,5 +1,9 @@
-const $chatElement = document.getElementById('chat');
-const $messageInput = document.getElementById('messageInput');
+const $chat = document.getElementById('chat');
+const $mensajeAEnviar = document.getElementById('entrada-mensaje');
+const $btnEnviar = document.getElementById('boton-enviar');
+const $displayUsuario = document.getElementById('usuario-nombre');
+const $ultimaConexion = document.getElementById('ultimo-visto');
+const $imagenDeUsuario = document.getElementById('usuario-foto');
 
 let usuario = '';
 let socket;
@@ -9,9 +13,20 @@ function generarNombre() {
     return `usuario${numero}`;
 }
 
+function obtenerHora() {
+    const ahora = new Date();
+    const venezuela = new Date(ahora.toLocaleString('en-US', { timeZone: 'America/Caracas' }));
+    const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+    const format = venezuela.toLocaleTimeString('es-VE', options);
+    return `Hoy a las ${format}`;
+}
+
 function conectar() {
     usuario = localStorage.getItem('name') || generarNombre();
     localStorage.setItem('name', usuario);
+    $displayUsuario.textContent = usuario;
+    $ultimaConexion.innerHTML = obtenerHora();
+    $imagenDeUsuario.innerHTML = `<img src="https://api.dicebear.com/9.x/initials/svg?seed=${usuario}" alt="${usuario}" />`;
 
     socket = io('https://cinexunidos-production.up.railway.app', {
         auth: { name: usuario }
@@ -29,10 +44,10 @@ function conectar() {
 }
 
 function enviarMensaje() {
-    const mensaje = $messageInput.value.trim();
+    const mensaje = $mensajeAEnviar.value.trim();
     if (mensaje.length > 0 && mensaje.length <= 255) {
         socket.emit('send-message', mensaje);
-        $messageInput.value = '';
+        $mensajeAEnviar.value = '';
     } else if (mensaje.length > 255) {
         alert('El mensaje no puede tener más de 255 caracteres.');
     }
@@ -41,11 +56,11 @@ function enviarMensaje() {
 function mostrarMensaje(payload) {
     const { message, name } = payload;
     const $divElement = document.createElement('div');
-    $divElement.classList.add('message');
-    $divElement.classList.add(name === usuario ? 'outgoing' : 'incoming');
+    $divElement.classList.add('mensaje');
+    $divElement.classList.add(name === usuario ? 'saliente' : 'entrante');
     $divElement.innerHTML = `<small>${name}</small><p>${message}</p>`;
-    $chatElement.appendChild($divElement);
-    $chatElement.scrollTop = $chatElement.scrollHeight;
+    $chat.appendChild($divElement);
+    $chat.scrollTop = $chat.scrollHeight;
 }
 
 window.addEventListener('beforeunload', () => {
@@ -53,9 +68,12 @@ window.addEventListener('beforeunload', () => {
     socket.close();
 });
 
-document.querySelector('button[onclick="sendMessage()"]').addEventListener('click', enviarMensaje);
+$btnEnviar.addEventListener('click', (event) => {
+    event.preventDefault();
+    enviarMensaje();
+});
 
-$messageInput.addEventListener('keypress', (event) => {
+$mensajeAEnviar.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
         event.preventDefault();
         enviarMensaje();
