@@ -11,20 +11,40 @@
     <script src="https://cinexunidos-production.up.railway.app/socket.io/socket.io.min.js"></script>
 </head>
 <body>
-    <aside class="abajo-derecha">
-        <section class="chat">
-            <header class="contacto barra">
-                <div class="foto" id="usuario-foto"></div>
-                <div class="nombre" id="usuario-nombre"></div>
-                <div class="visto" id="ultimo-visto"></div>
-            </header>
-            <main class="mensajes" id="chat"></main>
-            <form class="entrada" id="formulario-mensaje">
-                <input placeholder="Escribe tu mensaje aquí" type="text" id="entrada-mensaje" />
-                <button type="submit" id="boton-enviar">Enviar</button>
-            </form>
+    <header class="header">
+        <section class="logo-cine">
+            <a href="index.html"><img src="recursos/logo.png" alt="Cinex Unidos" class="logo"></a>
         </section>
-    </aside>
+        <nav class="principal">
+            <ul>
+                <li><a href='index.html'><img src="recursos/iconos/icono-peliculas.png" alt="Cartelera"><span>Cartelera</span></a></li>
+                <li><a href='proximamente.html'><img src="recursos/iconos/icono-proximamente.png" alt="Próximamente"><span>Próximamente</span></a></li>
+                <li><a href='caramelería.html'><img src="recursos/iconos/icono-palomitas.png" alt="Caramelería"><span>Caramelería</span></a></li>
+                <li><a href='cines.html'><img src="recursos/iconos/icono-boleto.png" alt="Cines"><span>Cines</span></a></li>
+                <li><a href='chat.html'><img src="recursos/iconos/icono_foro.png" alt="Foro"><span>Foro</span></a></li>
+            </ul>
+        </nav>
+        <section class="portada"></section>
+    </header>
+    <div class="content-wrapper">
+        <aside class="abajo-derecha">
+            <section class="chat">
+                <header class="contacto barra">
+                    <div class="foto" id="usuario-foto"></div>
+                    <div class="nombre" id="usuario-nombre"></div>
+                    <div class="visto" id="ultimo-visto"></div>
+                </header>
+                <main class="mensajes" id="chat"></main>
+                <form class="entrada" id="formulario-mensaje">
+                    <input placeholder="Escribe tu mensaje aquí" type="text" id="entrada-mensaje" />
+                    <button type="submit" id="boton-enviar">Enviar</button>
+                </form>
+            </section>
+        </aside>
+    </div>
+    <footer class="footer">
+        <p>&copy; 2024 Cinex Unidos. Todos los derechos reservados.</p>
+    </footer>
     <script src="js/chat.js"></script>
 </body>
 </html>
