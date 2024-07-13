@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soporte</title>
+    <title>Foro Cine</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css" />
     <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css' />
     <link rel="stylesheet" href="css/chat.css">
@@ -24,7 +24,13 @@
                 <li><a href='chat.html'><img src="recursos/iconos/icono_foro.png" alt="Soporte"><span>Soporte</span></a></li>
             </ul>
         </nav>
-        <section class="portada"></section>
+        <section class="portada">
+            <h2>Chat Foro</h2>
+            <div class="InfoChat">
+                <p>¡Bienvenido al chat de CinexUnidos! Aquí podrás interactuar con otros usuarios y compartir tus opiniones sobre las películas de la cartelera.</p>
+                <p> ¡Disfruta de la experiencia!</p>
+            </div>
+        </section>
     </header>
     <div class="content-wrapper">
         <aside class="abajo-derecha">
@@ -33,6 +39,7 @@
                     <div class="foto" id="usuario-foto"></div>
                     <div class="nombre" id="usuario-nombre"></div>
                     <div class="visto" id="ultimo-visto"></div>
+                    <div id="feedback"></div> <!-- Nuevo elemento -->
                 </header>
                 <main class="mensajes" id="chat"></main>
                 <form class="entrada" id="formulario-mensaje">

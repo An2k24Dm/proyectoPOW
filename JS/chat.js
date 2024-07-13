@@ -4,9 +4,12 @@ const $btnEnviar = document.getElementById('boton-enviar');
 const $displayUsuario = document.getElementById('usuario-nombre');
 const $ultimaConexion = document.getElementById('ultimo-visto');
 const $imagenDeUsuario = document.getElementById('usuario-foto');
+const feedback = document.getElementById('feedback');
+
 
 let usuario = '';
 let socket;
+let identificador = 'chatWeb';
 
 function generarNombre() {
     const numero = Math.floor(Math.random() * 100000);
@@ -41,10 +44,15 @@ function conectar() {
     });
 
     socket.on('new-message', mostrarMensaje);
+
+    socket.on('online-users', (users) => {
+        feedback.innerHTML = `<p>Usuarios en línea: ${users.length}</p>`;
+    });
+    
 }
 
 function enviarMensaje() {
-    const mensaje = $mensajeAEnviar.value.trim();
+    const mensaje = $mensajeAEnviar.value.trim()+ identificador;
     if (mensaje.length > 0 && mensaje.length <= 255) {
         socket.emit('send-message', mensaje);
         $mensajeAEnviar.value = '';
@@ -55,12 +63,21 @@ function enviarMensaje() {
 
 function mostrarMensaje(payload) {
     const { message, name } = payload;
-    const $divElement = document.createElement('div');
-    $divElement.classList.add('mensaje');
-    $divElement.classList.add(name === usuario ? 'saliente' : 'entrante');
-    $divElement.innerHTML = `<small>${name}</small><p>${message}</p>`;
-    $chat.appendChild($divElement);
-    $chat.scrollTop = $chat.scrollHeight;
+    // Verifica si el mensaje contiene el identificador
+    if (message.includes(identificador)) {
+      // Quita el identificador del mensaje
+      const mensajeSinIdentificador = message.replace(identificador, '');
+      // Crea el elemento HTML para mostrar el mensaje
+      const $divElement = document.createElement('div');
+      $divElement.classList.add('mensaje');
+      $divElement.classList.add(name === usuario ? 'saliente' : 'entrante');
+      $divElement.innerHTML = `<small>${name}</small><p>${mensajeSinIdentificador}</p>`;
+      $chat.appendChild($divElement);
+      $chat.scrollTop = $chat.scrollHeight;
+    } else {
+      // El mensaje no contiene el identificador
+      console.log('Mensaje sin identificador:', message);
+    }
 }
 
 window.addEventListener('beforeunload', () => {
