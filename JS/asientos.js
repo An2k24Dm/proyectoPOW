@@ -67,26 +67,9 @@ function displaySeatMap(seats) {
 
         seats[rowKey].forEach((seat, index) => {
             const seatElement = document.createElement('div');
-
-            switch (seat) {
-                case -1:
-                    seatElement.className = 'seat seat-empty';
-                    break;
-                case 0:
-                    seatElement.className = 'seat seat-free';
-                    seatElement.addEventListener('click', () => toggleSeatSelection(seatElement, seats, rowKey, index));
-                    break;
-                case 1:
-                    seatElement.className = 'seat seat-preselected';
-                    seatElement.addEventListener('click', () => alert('Ya otro usuario tiene seleccionado este asiento'));
-                    break;
-                case 2:
-                    seatElement.className = 'seat seat-occupied';
-                    break;
-                default:
-                    seatElement.className = 'seat';
-                    break;
-            }
+            seatElement.className = getSeatClass(seat);
+            seatElement.dataset.seatId = `${rowKey}${index}`;
+            seatElement.addEventListener('click', () => toggleSeatSelection(seatElement, rowKey, index));
 
             rowContainer.appendChild(seatElement);
         });
@@ -95,6 +78,22 @@ function displaySeatMap(seats) {
     });
 
     seatMapSection.appendChild(seatMap);
+}
+
+// Función para obtener la clase del asiento basado en su estado
+function getSeatClass(seatStatus) {
+    switch (seatStatus) {
+        case -1:
+            return 'seat seat-empty';
+        case 0:
+            return 'seat seat-free';
+        case 1:
+            return 'seat seat-preselected';
+        case 2:
+            return 'seat seat-occupied';
+        default:
+            return 'seat';
+    }
 }
 
 // Función para reservar un asiento
@@ -107,12 +106,7 @@ async function reserveSeat(theatreId, auditoriumId, showtimeId, seat) {
             },
             body: JSON.stringify({ seat })
         });
-        if (!response.ok) {
-            if (response.status === 409) {
-                alert('El asiento ya ha sido reservado por otro usuario.');
-            }
-            throw new Error('Error al reservar el asiento');
-        }
+        if (!response.ok) throw new Error('Error al reservar el asiento');
         return true;
     } catch (error) {
         console.error('Error al reservar el asiento:', error);
@@ -138,21 +132,69 @@ async function cancelReservation(theatreId, auditoriumId, showtimeId, seat) {
     }
 }
 
-// Función para alternar la selección de un asiento
-async function toggleSeatSelection(seatElement, seats, rowKey, seatIndex) {
-    const seat = `${rowKey}${seatIndex}`;
+async function toggleSeatSelection(seatElement, rowKey, seatIndex) {
+    const seatId = `${rowKey}${seatIndex}`;
+    const params = new URLSearchParams(window.location.search);
+    const theatreId = params.get('theatreId');
+    const auditoriumId = params.get('auditoriumId');
+    const showtimeId = params.get('showtimeId');
 
-    if (seatElement.classList.contains('seat-free')) {
+    // Obtener el estado actual del asiento (0, 1, 2, etc.)
+    const seatStatus = getSeatStatus(seatElement);
+
+    if (seatStatus === 0) { // Asiento libre y disponible para selección
         seatElement.classList.remove('seat-free');
         seatElement.classList.add('seat-selected');
-        selectedSeats.push(seat);
-        seats[rowKey][seatIndex] = 1;
-    } else if (seatElement.classList.contains('seat-selected')) {
-        seatElement.classList.remove('seat-selected');
+        selectedSeats.push(seatId);
+        updateOtherWindows(seatId, 1); // Notificar a otras ventanas sobre la selección
+        saveSelectedSeats(); // Guardar los asientos seleccionados en localStorage
+    } else if (seatStatus === 1) { // Asiento preseleccionado, deselección
+        seatElement.classList.remove('seat-preselected'); // Cambiar de amarillo a gris
+        seatElement.classList.remove('seat-selected'); // Desmarcar el color amarillo si está seleccionado
         seatElement.classList.add('seat-free');
-        selectedSeats = selectedSeats.filter(s => s !== seat);
-        seats[rowKey][seatIndex] = 0;
+        selectedSeats = selectedSeats.filter(seat => seat !== seatId);
+        updateOtherWindows(seatId, 0); // Notificar a otras ventanas sobre la deselección
+        saveSelectedSeats(); // Guardar los asientos seleccionados en localStorage
+    } else if (seatStatus === 2) { // Asiento ocupado, no se puede seleccionar
+        alert('Este asiento está ocupado y no puede ser seleccionado.');
     }
+}
+
+// Función para guardar los asientos seleccionados en localStorage
+function saveSelectedSeats() {
+    localStorage.setItem('selectedSeats', JSON.stringify(selectedSeats));
+}
+
+// Función para obtener el estado del asiento basado en su clase
+function getSeatStatus(seatElement) {
+    if (seatElement.classList.contains('seat-free')) {
+        return 0; // Asiento libre
+    } else if (seatElement.classList.contains('seat-preselected') || seatElement.classList.contains('seat-selected')) {
+        return 1; // Asiento preseleccionado o seleccionado
+    } else if (seatElement.classList.contains('seat-occupied')) {
+        return 2; // Asiento ocupado
+    } else {
+        return -1; // Otro estado desconocido
+    }
+}
+
+// Función para actualizar la interfaz en otras ventanas
+function updateOtherWindows(seatId, status) {
+    const message = JSON.stringify({ seatId, status });
+    localStorage.setItem('seat-update', message);
+}
+
+// Función para recibir actualizaciones de otras ventanas
+function receiveSeatUpdates() {
+    window.addEventListener('storage', (event) => {
+        if (event.key === 'seat-update') {
+            const { seatId, status } = JSON.parse(event.newValue);
+            const seatElement = document.querySelector(`.seat[data-seat-id="${seatId}"]`);
+            if (seatElement) {
+                seatElement.className = getSeatClass(status);
+            }
+        }
+    });
 }
 
 document.querySelector('.boton.reservar').addEventListener('click', async (event) => {
@@ -180,10 +222,8 @@ document.querySelector('.boton.reservar').addEventListener('click', async (event
     if (allSuccessful) {
         alert('Asientos reservados exitosamente.');
         selectedSeats = [];
-        const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
-        if (showtimeDetails) {
-            displaySeatMap(showtimeDetails.seats);
-        }
+        // Redirigir a index.html
+        window.location.href = 'index.html';
     } else {
         alert('Hubo un problema al reservar uno o más asientos.');
         const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
@@ -193,7 +233,7 @@ document.querySelector('.boton.reservar').addEventListener('click', async (event
         }
     }
 });
-
+/*
 document.querySelector('.boton.cancelar').addEventListener('click', async (event) => {
     event.preventDefault();
 
@@ -214,6 +254,7 @@ document.querySelector('.boton.cancelar').addEventListener('click', async (event
     if (allSuccessful) {
         alert('Reservación cancelada exitosamente.');
         reservedSeats = [];
+        localStorage.removeItem('selectedSeats'); // Eliminar los asientos seleccionados del localStorage
         const showtimeDetails = await fetchShowtimeDetails(theatreId, auditoriumId, showtimeId);
         if (showtimeDetails) {
             displaySeatMap(showtimeDetails.seats);
@@ -227,6 +268,7 @@ document.querySelector('.boton.cancelar').addEventListener('click', async (event
         }
     }
 });
+*/
 
 function initSSE(theatreId, auditoriumId, showtimeId) {
     const eventSource = new EventSource(`https://cinexunidos-production.up.railway.app/theatres/${theatreId}/auditoriums/${auditoriumId}/showtimes/${showtimeId}/reservation-updates`);
@@ -248,6 +290,7 @@ function initSSE(theatreId, auditoriumId, showtimeId) {
     };
 }
 
+// Función de inicialización
 async function init() {
     const params = new URLSearchParams(window.location.search);
     const theatreId = params.get('theatreId');
@@ -264,7 +307,28 @@ async function init() {
         displayMovieDetails(showtimeDetails);
         displaySeatMap(showtimeDetails.seats);
         initSSE(theatreId, auditoriumId, showtimeId);
+
+        // Restaurar los asientos seleccionados desde localStorage
+        const savedSeats = localStorage.getItem('selectedSeats');
+        if (savedSeats) {
+            selectedSeats = JSON.parse(savedSeats);
+            selectedSeats.forEach(seatId => {
+                const seatElement = document.querySelector(`.seat[data-seat-id="${seatId}"]`);
+                if (seatElement) {
+                    const seatStatus = getSeatStatus(seatElement);
+                    // Dependiendo de si el asiento fue seleccionado en esta ventana o no
+                    if (seatStatus === 1) {
+                        seatElement.classList.add('seat-selected');
+                    } else if (seatStatus === 0) {
+                        seatElement.classList.add('seat-preselected');
+                    }
+                }
+            });
+        }
     }
+
+    receiveSeatUpdates(); // Configurar el escuchador para actualizaciones de asientos de otras ventanas
 }
 
+// Evento que se ejecuta cuando el DOM se carga completamente
 document.addEventListener('DOMContentLoaded', init);
